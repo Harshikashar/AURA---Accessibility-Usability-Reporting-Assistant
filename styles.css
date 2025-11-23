@@ -1,0 +1,103 @@
+body {
+  font-family: Arial, sans-serif;
+  padding: 10px;
+  width: 800px !important;
+  height: 600px !important;
+  background: #f9f9f9;
+  overflow-y: auto;
+  overflow-x:hidden;
+}
+.container, .main-content, #main-container {
+  height: auto !important;
+  overflow: visible !important;
+}
+
+h1 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+li {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+code {
+  background: #eee;
+  display: block;
+  padding: 4px;
+  margin-top: 4px;
+  font-family: monospace;
+  font-size: 12px;
+}
+
+button {
+  padding: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.highlight-btn {
+  background-color: #e67e22;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+.highlight-btn:hover {
+  background-color: #d35400;
+}
+
+
+.expand-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  z-index: 1000; /* 🔥 ensures it's above other elements */
+}
+
+.expand-btn:hover {
+  background: #2980b9;
+}
+
+#downloadPdf {
+  background-color: #42ad1f;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  padding: 10px 20px;
+  width: auto;
+  cursor: pointer;
+  margin: 10px auto;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+#downloadPdf:hover {
+  background-color: #1a252f;
+}
+

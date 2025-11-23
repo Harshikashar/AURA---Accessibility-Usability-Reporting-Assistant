@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AURA - Accessibility Assistant</title>
+  <meta charset="UTF-8">
+  <style>
+    /* --- THEME VARIABLES --- */
+    /* --- NEW STYLES FOR TABLE (Old Design Look) --- */
+
+/* 1. Issue Text Bold & Clean */
+.issue-text {
+  font-size: 0.9rem;       /* Thoda bada size */
+  font-weight: 700;        /* Bold Text */
+  color: #1e293b;          /* Dark Color */
+  display: block;
+  margin-bottom: 6px;      /* Button aur text ke beech gap */
+  line-height: 1.4;
+}
+
+/* 2. Round "Show" Button (Pill Shape) */
+.highlight-btn {
+  background-color: #f97316; /* Orange color */
+  color: white;
+  border: none;
+  padding: 6px 16px;       /* Thoda faila hua padding */
+  border-radius: 50px;     /* YEH HAI ROUND SHAPE */
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 2px 4px rgba(249, 115, 22, 0.2); /* Halki shadow */
+  transition: all 0.2s ease;
+}
+
+.highlight-btn:hover {
+  background-color: #ea580c;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(249, 115, 22, 0.3);
+}
+
+/* 3. Container styling for spacing */
+.issue-row {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 8px;
+}
+    :root {
+      --primary: #4f46e5;
+      --bg-color: #f8fafc;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --pass-color: #10b981;
+      --fail-color: #ef4444;
+      --total-color: #3b82f6;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body { 
+      width: 800px !important; 
+      height: 600px !important; 
+      font-family: 'Segoe UI', 'Inter', sans-serif; 
+      background-color: var(--bg-color); 
+      color: var(--text-main);
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column; 
+    }
+
+    /* 1. HEADER (Compact) */
+    .header { 
+      background: linear-gradient(135deg, #1e3a8a, #2563eb); 
+      color: white; 
+      padding: 10px 20px; 
+      display: flex; align-items: center; justify-content: space-between;
+      height: 50px; flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 10;
+    }
+    .brand-wrapper { display: flex; align-items: center; gap: 10px; }
+    .header-logo { width: 30px; height: 30px; border-radius: 6px; background: white; padding: 2px; }
+    .header-text h1 { font-size: 1.1rem; font-weight: 800; line-height: 1; margin: 0; }
+    .expand-btn { background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 5px 12px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; }
+    .expand-btn:hover { background: white; color: var(--primary); }
+
+    /* 2. DASHBOARD (Compact) */
+    .dashboard-panel {
+      padding: 15px 20px;
+      display: grid; grid-template-columns: 90px 1fr; gap: 20px;
+      background: white; border-bottom: 1px solid #e2e8f0; flex-shrink: 0;
+    }
+
+    /* SCORE CIRCLE (Fixed) */
+    .score-card { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    
+    .score-circle { 
+      width: 80px; 
+      height: 80px; 
+      border-radius: 50%; 
+      /* Default Grey Background */
+      background: conic-gradient(#e2e8f0 0% 100%); 
+      display: flex; flex-direction: column; align-items: center; justify-content: center; 
+      position: relative;
+      transition: background 0.5s ease;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+    }
+    
+    /* White Ring Center (Donut effect) */
+    .score-circle::before {
+      content: ''; position: absolute; width: 75%; height: 75%;
+      background: white; border-radius: 50%; z-index: 1;
+    }
+
+    .score-val { font-size: 1.8rem; font-weight: 800; color: var(--text-main); z-index: 2; position: relative; line-height: 1; }
+    .score-lbl { font-size: 0.65rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; z-index: 2; position: relative; }
+
+    /* STATS CARDS */
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .stat-card {
+      background: white; border-radius: 8px; padding: 10px; text-align: center; border: 1px solid #f1f5f9;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02); position: relative; overflow: hidden;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .stat-card::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; }
+    .stat-card.pass::after { background: var(--pass-color); }
+    .stat-card.fail::after { background: var(--fail-color); }
+    .stat-card.total::after { background: var(--total-color); }
+
+    .stat-num { font-size: 1.5rem; font-weight: 800; display: block; line-height: 1; margin-bottom: 2px; }
+    .stat-card.pass .stat-num { color: var(--pass-color); }
+    .stat-card.fail .stat-num { color: var(--fail-color); }
+    .stat-card.total .stat-num { color: var(--total-color); }
+    .stat-label { font-size: 0.65rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
+
+    /* 3. CONTROLS */
+    .controls { padding: 12px 20px; display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; }
+    .compact-tools-row { display: flex; align-items: center; gap: 10px; justify-content: space-between; }
+
+    .vision-group { display: flex; align-items: center; gap: 8px; background: #eef2ff; padding: 6px 10px; border-radius: 6px; border: 1px solid #c7d2fe; flex: 0.8; }
+    select#visionSelect { width: 100%; font-size: 0.8rem; padding: 4px; border: 1px solid #a5b4fc; border-radius: 4px; outline: none; cursor: pointer; }
+
+    .tools-group { display: flex; gap: 8px; flex: 1.2; background: #f0fdf4; padding: 4px; border-radius: 6px; border: 1px solid #bbf7d0; }
+    .tool-btn { flex: 1; padding: 6px; border: 1px solid #86efac; background: white; border-radius: 4px; font-size: 0.75rem; font-weight: 600; color: #166534; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; transition: 0.2s; }
+    .tool-btn:hover { background: #dcfce7; }
+    .tool-btn.active { background: #16a34a; color: white; border-color: #16a34a; }
+
+    .action-row { display: flex; gap: 10px; align-items: center; }
+    .filter-pills { background: #e2e8f0; padding: 3px; border-radius: 6px; display: inline-flex; }
+    .filter-btn { padding: 5px 12px; border: none; background: transparent; color: #64748b; font-weight: 600; font-size: 0.75rem; cursor: pointer; border-radius: 4px; }
+    .filter-btn.active { background: white; color: var(--primary); box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+
+    .action-btn { flex: 1; padding: 8px; border-radius: 6px; font-weight: 700; cursor: pointer; border: none; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .btn-pdf { background: #10b981; color: white; }
+    .btn-error { background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; }
+
+    /* 4. RESULTS TABLE */
+    #loadingDiv { padding: 20px; text-align: center; color: #64748b; font-style: italic; }
+    .table-wrapper { flex-grow: 1; overflow-y: auto; background: white; border-top: 1px solid #cbd5e1; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+    th { text-align: left; padding: 10px 16px; background: #f8fafc; color: #475569; font-weight: 700; position: sticky; top: 0; z-index: 5; border-bottom: 2px solid #e2e8f0; font-size: 0.7rem; text-transform: uppercase; }
+    td { padding: 10px 16px; border-bottom: 1px solid #f1f5f9; vertical-align: top; color: #334155; }
+    tr:hover td { background: #f8fafc; }
+    
+   /* .status-badge { padding: 3px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; display: inline-block; min-width: 60px; text-align: center; }
+    .status-pass { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+    .status-fail { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+    .status-warning { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+
+    .loading { display: none; }
+    .loading.active { display: block; }*/
+    /* Table */
+    .table-container { padding: 0; max-height: 350px; overflow-y: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    th { background: #34495e; color: white; padding: 12px; text-align: left; position: sticky; top: 0; }
+    td { padding: 12px; border-bottom: 1px solid #eee; vertical-align: top; }
+    .status-pass { color: #27ae60; font-weight: bold; }
+    .status-fail { color: #e74c3c; font-weight: bold; }
+    .loading { text-align: center; padding: 40px; color: #666; }
+  </style>
+</head>
+<body>
+  
+  <div class="header">
+    <div class="brand-wrapper">
+      <img src="icons/4.png" alt="AURA" class="header-logo">
+      <div class="header-text"><h1>AURA - Accessibility & Usability Reporting Assistant </h1></div>
+    </div>
+    <button id="expand-btn" class="expand-btn">⤢ Expand</button>
+  </div>
+
+  <div class="dashboard-panel">
+    <div class="score-card">
+      <div class="score-circle" id="scoreCircle">
+        <span id="score-text" class="score-val">--</span>
+        <span class="score-lbl">Score</span>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card pass">
+        <span class="stat-num" id="passedCount">0</span>
+        <span class="stat-label">Passed</span>
+      </div>
+      <div class="stat-card fail">
+        <span class="stat-num" id="failedCount">0</span>
+        <span class="stat-label">Issues</span>
+      </div>
+      <div class="stat-card total">
+        <span class="stat-num" id="totalCount">0</span>
+        <span class="stat-label">Total</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="compact-tools-row">
+      <div class="vision-group">
+        <span>👁️ Vision</span>
+        <select id="visionSelect">
+          <option value="normal">Normal</option>
+          <option value="protanopia">No Red</option>
+          <option value="deuteranopia">No Green</option>
+          <option value="tritanopia">No Blue</option>
+          <option value="achromatopsia">Mono</option>
+          <option value="blurred">Blur</option>
+        </select>
+      </div>
+      <div class="tools-group">
+        <button id="btnTabFocus" class="tool-btn">🎹 Tab Order</button>
+        <button id="btnScreenReader" class="tool-btn">🗣️ Screen Reader</button>
+        <button id="btnReadability" class="tool-btn">📝 Readability</button>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <div class="filter-pills">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="passed">Passed</button>
+        <button class="filter-btn" data-filter="failed">Issues</button>
+      </div>
+      <button id="showAllErrorsBtn" class="action-btn btn-error">⚠️ Show all Errors</button>
+      <button id="downloadPdf" class="action-btn btn-pdf">📄 PDF</button>
+    </div>
+  </div>
+
+  <div id="loadingDiv" class="loading active"><p>Analyzing page...</p></div>
+  
+  <div class="table-wrapper" id="resultsTable" style="display: none;">
+    <table id="results">
+      <thead>
+        <tr>
+          <th style="width: 25%">Guideline</th>
+          <th style="width: 15%">Status</th>
+          <th style="width: 35%">Details</th>
+          <th style="width: 10%">How To Fix</th>
+          <th style="width: 15%">Action</th>
+        </tr>
+      </thead>
+      <tbody id="resultsBody"></tbody>
+    </table>
+  </div>
+
+  <script src="utils/jspdf.umd.min.js"></script>
+  <script src="utils/jspdf.plugin.autotable.min.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
