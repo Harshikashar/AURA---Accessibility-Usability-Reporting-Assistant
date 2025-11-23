@@ -87,6 +87,7 @@ Since this is a developer build, you can load it directly into Chrome:
 
 ## 👥 Other Contributors
 
-This project was developed by :
+This project was developed by :-
 
 * **Manya** [github.com/Manyaa111](https://github.com/Manyaa111)
+* **Anshu** [github.com/anshuy901](https://github.com/anshuy901)
